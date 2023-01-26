@@ -28,7 +28,8 @@ router.post('/register', async (req, res) => {
       await promiseDb.query(`INSERT INTO Employees (email, full_Name, password, phone, relation, relative_Name, address, department_ID, location_ID, joining_Date, resigning_Date, basic_pay, hra, ta, ctc, pf_Applicable, esi_Applicable) VALUES ('${email}', '${full_Name}', '${hashedPassword}', '${phone}', '${relation}', '${relative_Name}', '${address}', ${department_ID}, ${location_ID}, '${joining_Date}', '${resigning_Date}',${basic_pay}, ${hra}, ${ta}, ${ctc}, '${pf_Applicable}', '${esi_Applicable}')`);
   
     //   // Create and return a JWT
-      const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '24h' });
+    const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '30d' });
+
       return res.json({ token });
   
     } catch (error) {
