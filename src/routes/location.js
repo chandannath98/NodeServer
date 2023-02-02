@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 router.use(checkAuth)
 
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM Department', (err, rows) => {
+  db.query('SELECT * FROM Location', (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
@@ -29,21 +29,21 @@ router.get('/', (req, res) => {
       // Get data from request body
 
 
-      const { id,department_Name,working_days_in_week,leave_Days,in_Timing,out_Timing } = req.body;
+      const { id,location_Coordinates,site_Name } = req.body;
   
 
       // Check if user already exists
-      const [rows]  = await promiseDb.query(`SELECT * FROM Department WHERE id = '${id}'`);
+      const [rows]  = await promiseDb.query(`SELECT * FROM Location WHERE id = '${id}'`);
  
       if (rows.length != 0) {
-        return res.status(409).json({ error: 'Department exists' });
+        return res.status(409).json({ error: 'Location exists' });
       }
   
       // Hash the password
 
   
       // Insert the new user into the database
-      await promiseDb.query(`INSERT INTO Department (id,department_Name,working_days_in_week,leave_Days,in_Timing,out_Timing) VALUES ('${id}', '${department_Name}', ${working_days_in_week}, ${leave_Days}, '${in_Timing}', '${out_Timing}')`);
+      await promiseDb.query(`INSERT INTO Location (id,location_Coordinates,site_Name) VALUES ('${id}', '${location_Coordinates}',  '${site_Name}')`);
   
     //   // Create and return a JWT
       return res.json('added');
@@ -60,7 +60,7 @@ router.get('/', (req, res) => {
     const data = req.body;
     const id = req.body.id;
     try{
-      promiseDb.query('UPDATE Department SET ? WHERE id = ?', [data, id])
+      promiseDb.query('UPDATE Location SET ? WHERE id = ?', [data, id])
       return res.sendStatus(200);
 
     }catch(eror){
