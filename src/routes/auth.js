@@ -42,7 +42,7 @@ router.post('/register', async (req, res) => {
   router.post('/login', async (req, res) => {
     // Get email and password from request body
     const { email, password } = req.body;
-  console.log(email)
+  // console.log(email)
     try {
       // Retrieve user from database
       const [rows]  = await promiseDb.query(`SELECT * FROM Employees WHERE email = '${email}'`);
@@ -50,9 +50,9 @@ router.post('/register', async (req, res) => {
   
       // Check if user exists
       if (rows.length == 0) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        return res.json({ error: 'Invalid email or password' });
       }else{
-        console.log(rows[0])
+        // console.log(rows[0])
 
         // Compare submitted password to hashed password
         const isMatch = await bcrypt.compare(password, rows[0].password);
