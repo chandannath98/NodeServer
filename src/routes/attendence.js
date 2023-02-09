@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
 
   
       // Insert the new user into the database
-      await promiseDb.query(`INSERT INTO Department (id,email,date,time,location_Coordinates,photoUrl) VALUES ('${id}', '${email}', '${date}', '${time}', '${location_Coordinates}', '${photoUrl}')`);
+      await promiseDb.query(`INSERT INTO Attendance (id,email,date,time,location_Coordinates,photoUrl) VALUES ('${id}', '${email}', '${date}', '${time}', '${location_Coordinates}', '${photoUrl}')`);
   
     //   // Create and return a JWT
       return res.json('added');
