@@ -15,6 +15,7 @@ const salary= require("./src/routes/salary");
 app.use('/auth', authRouter);
 app.use('/employees', employees);
 app.use('/department', department);
+app.use('/location', location);
 app.use('/salary', salary);
  
 
