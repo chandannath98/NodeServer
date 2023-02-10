@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
   
 
 
-router.get('/getTodayDataFromID:email', (req, res) => {
+router.get('/getTodayDataFromID/:email', (req, res) => {
 
 const email=req.params.email
   db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = CURDATE()`, (err, rows) => {
