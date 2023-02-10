@@ -24,6 +24,39 @@ router.get('/', (req, res) => {
   
 
 
+router.get('/getTodayDataFromID:email', (req, res) => {
+
+const email=req.params.email
+  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = CURDATE()`, (err, rows) => {
+      if (err) {
+        console.log('Error fetching data: ' + err);
+        return res.sendStatus(500);
+      }
+      res.json(rows);
+    });
+
+
+  });
+  
+
+
+router.post('/getDataFromID', (req, res) => {
+
+const email=req.body.email
+const month=req.body.month
+  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND  MONTH(date) = ${month}`, (err, rows) => {
+      if (err) {
+        console.log('Error fetching data: ' + err);
+        return res.sendStatus(500);
+      }
+      res.json(rows);
+    });
+
+
+  });
+  
+
+
   router.post('/add', async (req, res) => {
     try {
       // Get data from request body
