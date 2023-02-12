@@ -29,7 +29,7 @@ router.get('/getTodayDataFromID/:email', (req, res) => {
 const email=req.params.email
 var today = new Date();
 var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-
+console.log(sqlDate)
 
 
   db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = ${sqlDate}`, (err, rows) => {
