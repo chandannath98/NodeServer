@@ -28,11 +28,11 @@ router.get('/getTodayDataFromID/:email', (req, res) => {
 
 const email=req.params.email
 var today = new Date();
-var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-console.log(sqlDate)
+var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, '0')+'-'+today.getDate();
 
 
-  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = ${sqlDate}`, (err, rows) => {
+
+  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = '${sqlDate}'`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
