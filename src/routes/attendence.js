@@ -27,7 +27,12 @@ router.get('/', (req, res) => {
 router.get('/getTodayDataFromID/:email', (req, res) => {
 
 const email=req.params.email
-  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = CURDATE()`, (err, rows) => {
+
+var currentDate = new Date();
+var sqlDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+
+
+  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = ${sqlDate}`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
