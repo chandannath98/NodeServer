@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
       // Get data from request body
 
 
-      const { email, full_Name, password, phone, relation, relative_Name, address, department_ID, location_ID, joining_Date, resigning_Date, basic_pay, hra, ta, ctc, pf_Applicable, esi_Applicable } = req.body;
+      const {id, email, full_Name, password, phone, relation, relative_Name, address, department_ID, location_ID, joining_Date, resigning_Date, basic_pay, hra, ta, ctc, pf_Applicable, esi_Applicable } = req.body;
   
 
       // Check if user already exists
@@ -25,7 +25,8 @@ router.post('/register', async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
   
       // Insert the new user into the database
-      await promiseDb.query(`INSERT INTO Employees (email, full_Name, password, phone, relation, relative_Name, address, department_ID, location_ID, joining_Date, resigning_Date, basic_pay, hra, ta, ctc, pf_Applicable, esi_Applicable) VALUES ('${email}', '${full_Name}', '${hashedPassword}', '${phone}', '${relation}', '${relative_Name}', '${address}', ${department_ID}, ${location_ID}, '${joining_Date}', '${resigning_Date}',${basic_pay}, ${hra}, ${ta}, ${ctc}, '${pf_Applicable}', '${esi_Applicable}')`);
+      await promiseDb.query(`INSERT INTO Employees (id,email, full_Name, password, phone, relation, relative_Name, address, department_ID, location_ID, joining_Date, resigning_Date, basic_pay, hra, ta, ctc, pf_Applicable, esi_Applicable) VALUES (${id},'${email}', '${full_Name}', '${hashedPassword}', '${phone}', '${relation}', '${relative_Name}', '${address}', ${department_ID}, ${location_ID}, '${joining_Date}', ${resigning_Date ? `'${resigning_Date}'` : 'NULL'}, ${basic_pay}, ${hra}, ${ta}, ${ctc}, '${pf_Applicable}', '${esi_Applicable}')`);
+
   
     //   // Create and return a JWT
     const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '30d' });

@@ -12,6 +12,7 @@ const department= require("./src/routes/department");
 const location= require("./src/routes/location");
 const salary= require("./src/routes/salary");
 const attendence= require("./src/routes/attendence");
+// const document= require("./src/routes/document");
 
 app.use('/auth', authRouter);
 app.use('/employees', employees);
@@ -19,6 +20,7 @@ app.use('/department', department);
 app.use('/location', location);
 app.use('/salary', salary);
 app.use('/attendence', attendence);
+// app.use('/documents', document);
  
 
 
