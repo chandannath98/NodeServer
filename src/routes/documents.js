@@ -24,34 +24,14 @@ router.get('/', (req, res) => {
   
 
 
-router.get('/getTodayDataFromID/:email', (req, res) => {
-
-const email=req.params.email
-var today = new Date();
-var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, '0')+'-'+today.getDate();
-
-
-
-  db.query(`SELECT * FROM Documents WHERE email = '${email}' AND date = '${sqlDate}'`, (err, rows) => {
-      if (err) {
-        console.log('Error fetching data: ' + err);
-        return res.sendStatus(500);
-      }
-      res.json(rows);
-    });
-
-
-  });
-  
 
 
 router.post('/getDataFromID', (req, res) => {
 
-const email=req.body.email
-const month=req.body.month
+const employee_ID=req.body.employee_ID
 
 
-  db.query(`SELECT * FROM Documents WHERE email = '${email}' AND  MONTH(date) = ${month}`, (err, rows) => {
+  db.query(`SELECT * FROM Documents WHERE employee_ID = '${employee_ID}'`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
@@ -69,21 +49,15 @@ const month=req.body.month
       // Get data from request body
 
 
-      const { id,email,date,time,location_Coordinates,photoUrl } = req.body;
+      const { id,	document_Name,	file,	employee_ID,	date	
+      } = req.body;
   
 
-      // Check if user already exists
-      const [rows]  = await promiseDb.query(`SELECT * FROM Documents WHERE id = '${id}'`);
- 
-      if (rows.length != 0) {
-        return res.status(409).json({ error: 'Documents exists' });
-      }
-  
-      // Hash the password
+     
 
   
       // Insert the new user into the database
-      await promiseDb.query(`INSERT INTO Documents (id,email,date,time,location_Coordinates,photoUrl) VALUES ('${id}', '${email}', '${date}', '${time}', '${location_Coordinates}', '${photoUrl}')`);
+      await promiseDb.query(`INSERT INTO Documents (	document_Name,	file,	employee_ID,	date) VALUES ('${document_Name}', '${file}', '${employee_ID}', '${date}')`);
   
     //   // Create and return a JWT
       return res.json('added');

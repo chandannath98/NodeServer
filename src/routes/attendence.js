@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 router.use(checkAuth)
 
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM Attendance', (err, rows) => {
+  db.query('SELECT * FROM attendance', (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
@@ -24,15 +24,18 @@ router.get('/', (req, res) => {
   
 
 
-router.get('/getTodayDataFromID/:email', (req, res) => {
+router.get('/getTodayDataFromID/:employee_ID', (req, res) => {
 
-const email=req.params.email
+const employee_ID=req.params.employee_ID
 var today = new Date();
 var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, '0')+'-'+today.getDate();
 
 
 
-  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND date = '${sqlDate}'`, (err, rows) => {
+  db.query(`SELECT * FROM attendance WHERE employee_ID = '${employee_ID}' AND DATE(CONVERT_TZ(date, '+05:30', '+00:00')) = CURDATE();
+
+  
+  `, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
@@ -47,11 +50,13 @@ var sqlDate = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2
 
 router.post('/getDataFromID', (req, res) => {
 
-const email=req.body.email
+const employee_ID=req.body.employee_ID
 const month=req.body.month
 
+console.log(month)
+console.log(employee_ID)
 
-  db.query(`SELECT * FROM Attendance WHERE email = '${email}' AND  MONTH(date) = ${month}`, (err, rows) => {
+  db.query(`SELECT * FROM attendance WHERE employee_ID = '${employee_ID}' AND  MONTH(CONVERT_TZ(date, '+05:30', '+00:00')) = ${month}`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
@@ -69,21 +74,13 @@ const month=req.body.month
       // Get data from request body
 
 
-      const { id,email,date,time,location_Coordinates,photoUrl } = req.body;
+      const { employee_ID, date, in_time, location_Coordinates, photo, out_time } = req.body;
   
 
-      // Check if user already exists
-      const [rows]  = await promiseDb.query(`SELECT * FROM Attendance WHERE id = '${id}'`);
- 
-      if (rows.length != 0) {
-        return res.status(409).json({ error: 'Attendance exists' });
-      }
-  
-      // Hash the password
-
+      
   
       // Insert the new user into the database
-      await promiseDb.query(`INSERT INTO Attendance (id,email,date,time,location_Coordinates,photoUrl) VALUES ('${id}', '${email}', '${date}', '${time}', '${location_Coordinates}', '${photoUrl}')`);
+      await promiseDb.query(`INSERT INTO attendance ( employee_ID, date, in_time, location_Coordinates, photo, out_time) VALUES ( '${employee_ID}', '${date}', '${in_time}', '${location_Coordinates}', '${photo}', '${out_time}')`);
   
     //   // Create and return a JWT
       return res.json('added');
