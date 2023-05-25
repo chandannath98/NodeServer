@@ -39,7 +39,10 @@ router.get('/', (req, res) => {
   
       if(isAttendanceMarked){
         if(rows[0].out_time !== null){
-         return res.json({ isattendencemarked: "Marked" });
+         return res.json({...rows[0] ,isattendencemarked: "Marked" });
+
+        }else{
+         return res.json({...rows[0] ,isattendencemarked: isAttendanceMarked });
 
         }
       }
