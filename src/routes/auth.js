@@ -60,7 +60,8 @@ router.post('/register', async (req, res) => {
     
         // If passwords match, generate JWT
         if (isMatch) {
-          const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '24h' });
+          const token = jwt.sign({ email }, process.env.SECRET_KEY);
+
           return res.json({ token });
         } else {
           return res.status(401).json({ error: 'Invalid email or password' });
