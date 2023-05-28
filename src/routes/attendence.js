@@ -24,12 +24,14 @@ router.get('/', (req, res) => {
   
 
 
-  router.get('/getTodayDataFromID/:employee_ID', (req, res) => {
-    const employee_ID = req.params.employee_ID;
-    var today = new Date();
+  router.post('/getTodayDataFromID/', (req, res) => {
+    const employee_ID = req.body.employee_ID;
+    const date = req.body.date;
+    console.log(date)
+    console.log(employee_ID)
   
   
-    db.query(`SELECT * FROM attendance WHERE employee_ID = '${employee_ID}' AND DATE(CONVERT_TZ(CURDATE(), '+00:00', '+05:30')) = date`, (err, rows) => {
+    db.query(`SELECT * FROM attendance WHERE employee_ID = '${employee_ID}' AND date ='${date}'`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
