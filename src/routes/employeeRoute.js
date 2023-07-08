@@ -72,11 +72,12 @@ router.get('/', (req, res) => {
         const userEmail = decodedToken.email;
     
         // Retrieve employee data from the database using the userEmail
-        const query = ` SELECT E.*, D.*, L.*
+        const query = ` SELECT E.id AS employee_id, E.*, D.*, L.*
         FROM Employees E
         LEFT JOIN Department D ON E.department_ID = D.id
         LEFT JOIN Location L ON E.location_ID = L.id
-        WHERE E.email = ?`;
+        WHERE E.email = ?
+        `;
         const [rows] = await promiseDb.query(query, [userEmail]);
     
         if (rows.length === 0) {
