@@ -16,7 +16,10 @@ app.use(bodyParser.json());
 router.use(checkAuth)
 
 router.get('/', (req, res) => {
-    db.query('SELECT * FROM Employees', (err, rows) => {
+    db.query(`SELECT E.id AS employee_id, E.*, D.*, L.*
+    FROM Employees E
+    LEFT JOIN Department D ON E.department_ID = D.id
+    LEFT JOIN Location L ON E.location_ID = L.id`, (err, rows) => {
       if (err) {
         console.log('Error fetching data: ' + err);
         return res.sendStatus(500);
